@@ -5,22 +5,33 @@
 }
 
 :root {
-  --bg: #f3f5f7;
-  --panel: #ffffff;
-  --border: #d8dee6;
-  --text: #1a2332;
-  --muted: #5b6778;
-  --accent: #1f6feb;
-  --accent-hover: #1858c7;
-  --danger: #c62828;
-  --danger-hover: #a01f1f;
-  --success-bg: #e8f5e9;
-  --success-text: #1b5e20;
-  --error-bg: #fdecea;
-  --error-text: #8a1c1c;
+  --bg: #0f1419;
+  --bg-glow-1: #1a2740;
+  --bg-glow-2: #15202b;
+  --panel: #1a222d;
+  --input-bg: #121820;
+  --border: #2d3a4a;
+  --text: #e8edf4;
+  --muted: #9aa8bc;
+  --accent: #4c8dff;
+  --accent-hover: #6ba0ff;
+  --accent-soft: #1a2f4d;
+  --row-hover: #222c3a;
+  --danger: #ef5350;
+  --danger-hover: #e57373;
+  --success-bg: #1b3a24;
+  --success-text: #a5d6a7;
+  --success-border: #2e5a38;
+  --error-bg: #3a1c1c;
+  --error-text: #ef9a9a;
+  --error-border: #5c2b2b;
+  --secondary-bg: #1a222d;
+  --secondary-hover: #243041;
+  --focus-ring: color-mix(in srgb, var(--accent) 40%, transparent);
   --radius: 10px;
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
   --font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
 }
 
 html,
@@ -34,8 +45,8 @@ body {
   font-family: var(--font);
   color: var(--text);
   background:
-    radial-gradient(circle at top left, #e8eef8 0%, transparent 40%),
-    radial-gradient(circle at top right, #eef3f8 0%, transparent 35%),
+    radial-gradient(circle at top left, var(--bg-glow-1) 0%, transparent 40%),
+    radial-gradient(circle at top right, var(--bg-glow-2) 0%, transparent 35%),
     var(--bg);
   line-height: 1.45;
 }
@@ -45,6 +56,7 @@ input,
 textarea,
 select {
   font: inherit;
+  color: inherit;
 }
 
 .app {
@@ -98,13 +110,13 @@ h2 {
 .banner--success {
   background: var(--success-bg);
   color: var(--success-text);
-  border-color: #c8e6c9;
+  border-color: var(--success-border);
 }
 
 .banner--error {
   background: var(--error-bg);
   color: var(--error-text);
-  border-color: #f5c6c6;
+  border-color: var(--error-border);
 }
 
 .layout {
@@ -136,11 +148,12 @@ h2 {
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #fafbfc;
+  background: var(--input-bg);
+  color: var(--text);
 }
 
 .list-panel__toolbar input:focus {
-  outline: 2px solid color-mix(in srgb, var(--accent) 35%, white);
+  outline: 2px solid var(--focus-ring);
   border-color: var(--accent);
 }
 
@@ -169,11 +182,11 @@ h2 {
 }
 
 .agency-list__item:hover {
-  background: #f2f5f9;
+  background: var(--row-hover);
 }
 
 .agency-list__item--active {
-  background: #e8f0fe;
+  background: var(--accent-soft);
   color: var(--accent);
   font-weight: 600;
 }
@@ -233,13 +246,14 @@ h2 {
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #fafbfc;
+  background: var(--input-bg);
+  color: var(--text);
 }
 
 .field input:focus,
 .field textarea:focus,
 .services__add input:focus {
-  outline: 2px solid color-mix(in srgb, var(--accent) 35%, white);
+  outline: 2px solid var(--focus-ring);
   border-color: var(--accent);
 }
 
@@ -312,13 +326,13 @@ h2 {
 }
 
 .btn--secondary {
-  background: #fff;
+  background: var(--secondary-bg);
   border-color: var(--border);
   color: var(--text);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  background: #f5f7fa;
+  background: var(--secondary-hover);
 }
 
 .btn--danger {
