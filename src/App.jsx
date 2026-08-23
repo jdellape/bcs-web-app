@@ -132,7 +132,7 @@ export default function App() {
     <div className="app">
       <header className="app__header">
         <div>
-          <p className="eyebrow">Blair County Resources</p>
+          <p className="eyebrow">Blair County Services</p>
           <h1>Agency data entry</h1>
         </div>
         <button type="button" className="btn btn--primary" onClick={startCreate}>
