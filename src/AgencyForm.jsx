@@ -104,7 +104,7 @@ export default function AgencyForm({
   return (
     <form className="agency-form" onSubmit={handleSubmit}>
       <div className="agency-form__header">
-        <h2>{mode === "edit" ? "Edit agency" : "New agency"}</h2>
+        <h2>{mode === "edit" ? "Edit Agency" : "Add Agency"}</h2>
         {mode === "edit" && agency?.name ? (
           <p className="agency-form__subtitle">{agency.name}</p>
         ) : null}

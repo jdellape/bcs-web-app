@@ -133,10 +133,10 @@ export default function App() {
       <header className="app__header">
         <div>
           <p className="eyebrow">Blair County Services</p>
-          <h1>Agency data entry</h1>
+          <h1>Agency Data Entry</h1>
         </div>
         <button type="button" className="btn btn--primary" onClick={startCreate}>
-          New agency
+          Add Agency
         </button>
       </header>
 
@@ -163,7 +163,7 @@ export default function App() {
           <div className="list-panel__toolbar">
             <input
               type="search"
-              placeholder="Filter agencies…"
+              placeholder="Filter Agencies…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Filter agencies"
