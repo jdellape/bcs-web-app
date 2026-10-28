@@ -10,6 +10,7 @@ const EMPTY_FORM = {
   contact_name: "",
   email: "",
   services_description: "",
+  last_audited_date: "",
 };
 
 function agencyToForm(agency) {
@@ -24,6 +25,7 @@ function agencyToForm(agency) {
     contact_name: agency.contact_name || "",
     email: agency.email || "",
     services_description: agency.services_description || "",
+    last_audited_date: agency.last_audited_date || "",
   };
 }
 
@@ -93,6 +95,7 @@ export default function AgencyForm({
       contact_name: form.contact_name.trim(),
       email: form.email.trim(),
       services_description: form.services_description.trim(),
+      last_audited_date: form.last_audited_date,
       services: selectedServices,
     });
   };
@@ -186,6 +189,15 @@ export default function AgencyForm({
             rows={4}
             value={form.services_description}
             onChange={(e) => updateField("services_description", e.target.value)}
+          />
+        </label>
+
+        <label className="field">
+          <span>Last audited</span>
+          <input
+            type="date"
+            value={form.last_audited_date}
+            onChange={(e) => updateField("last_audited_date", e.target.value)}
           />
         </label>
       </div>
