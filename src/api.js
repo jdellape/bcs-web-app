@@ -29,6 +29,13 @@ export async function fetchAgencyList() {
     .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 }
 
+export async function fetchAgencyDetails() {
+  const res = await fetch(buildApiUrl("/agencies/details"));
+  if (!res.ok) throw new Error(await readError(res));
+  const data = await res.json();
+  return data.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+}
+
 export async function fetchAgency(agencyId) {
   const res = await fetch(
     buildApiUrl(`/agencies/${encodeURIComponent(agencyId)}`)
