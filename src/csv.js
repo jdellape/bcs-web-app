@@ -1,15 +1,14 @@
 export const AGENCY_COLUMNS = [
-  { key: "name", header: "Name" },
+  { key: "name", header: "Name", sortable: true },
+  { key: "last_audited_date", header: "Last audited date", sortable: true },
   { key: "address_line_one", header: "Address" },
   { key: "city", header: "City" },
-  { key: "state_code", header: "State" },
   { key: "zip_code", header: "ZIP" },
   { key: "phone_num", header: "Phone" },
   { key: "contact_name", header: "Contact" },
   { key: "email", header: "Email" },
   { key: "services", header: "Services" },
   { key: "services_description", header: "Services description" },
-  { key: "last_audited_date", header: "Last audited date" },
 ];
 
 export function formatServices(services) {
@@ -28,16 +27,15 @@ export function toTableRow(agency) {
   return {
     id: agency.id,
     name: agency.name || "",
+    last_audited_date: agency.last_audited_date || "",
     address_line_one: agency.address_line_one || "",
     city: agency.city || "",
-    state_code: agency.state_code || "",
     zip_code: agency.zip_code || "",
     phone_num: agency.phone_num || "",
     contact_name: agency.contact_name || "",
     email: agency.email || "",
     services: formatServices(agency.services),
     services_description: agency.services_description || "",
-    last_audited_date: agency.last_audited_date || "",
   };
 }
 
