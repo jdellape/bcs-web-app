@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   AGENCY_COLUMNS,
   csvFilename,
@@ -7,6 +7,20 @@ import {
   toTableRow,
 } from "./csv";
 
+const SORTABLE_KEYS = new Set(
+  AGENCY_COLUMNS.filter((col) => col.sortable).map((col) => col.key)
+);
+
+function compareRows(a, b, sortKey, sortDir) {
+  const aVal = a[sortKey] || "";
+  const bVal = b[sortKey] || "";
+  const cmp =
+    sortKey === "last_audited_date"
+      ? aVal.localeCompare(bVal)
+      : aVal.localeCompare(bVal, undefined, { sensitivity: "base" });
+  return sortDir === "asc" ? cmp : -cmp;
+}
+
 export default function AgencyList({
   agencies,
   loading,
@@ -14,13 +28,26 @@ export default function AgencyList({
   onRetry,
   onSelectAgency,
 }) {
+  const [sortKey, setSortKey] = useState("name");
+  const [sortDir, setSortDir] = useState("asc");
+
   const rows = useMemo(
     () =>
       agencies
         .map(toTableRow)
-        .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" })),
-    [agencies]
+        .sort((a, b) => compareRows(a, b, sortKey, sortDir)),
+    [agencies, sortKey, sortDir]
   );
+
+  const handleSort = (key) => {
+    if (!SORTABLE_KEYS.has(key)) return;
+    if (sortKey === key) {
+      setSortDir((dir) => (dir === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  };
 
   const handleDownload = () => {
     downloadCsv(rowsToCsv(rows), csvFilename());
@@ -67,15 +94,46 @@ export default function AgencyList({
         <div className="agency-table-wrap">
           <table className="agency-table">
             <caption className="sr-only">
-              All agencies. Click a row to edit.
+              All agencies. Click a row to edit. Click Name or Last audited date
+              to sort.
             </caption>
             <thead>
               <tr>
-                {AGENCY_COLUMNS.map((col) => (
-                  <th key={col.key} scope="col">
-                    {col.header}
-                  </th>
-                ))}
+                {AGENCY_COLUMNS.map((col) => {
+                  if (!col.sortable) {
+                    return (
+                      <th key={col.key} scope="col">
+                        {col.header}
+                      </th>
+                    );
+                  }
+
+                  const isActive = sortKey === col.key;
+                  const ariaSort = isActive
+                    ? sortDir === "asc"
+                      ? "ascending"
+                      : "descending"
+                    : "none";
+
+                  return (
+                    <th key={col.key} scope="col" aria-sort={ariaSort}>
+                      <button
+                        type="button"
+                        className={
+                          isActive
+                            ? "agency-table__sort agency-table__sort--active"
+                            : "agency-table__sort"
+                        }
+                        onClick={() => handleSort(col.key)}
+                      >
+                        {col.header}
+                        <span className="agency-table__sort-indicator" aria-hidden="true">
+                          {isActive ? (sortDir === "asc" ? " ▲" : " ▼") : " ↕"}
+                        </span>
+                      </button>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>

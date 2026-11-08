@@ -471,6 +471,35 @@ h2 {
   white-space: nowrap;
 }
 
+.agency-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.agency-table__sort:hover,
+.agency-table__sort--active {
+  color: var(--text);
+}
+
+.agency-table__sort:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.agency-table__sort-indicator {
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+
 .agency-table tbody tr {
   cursor: pointer;
 }
