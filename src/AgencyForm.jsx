@@ -80,8 +80,8 @@ export default function AgencyForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.address_line_one.trim() || !form.phone_num.trim()) {
-      window.alert("Name, address, and phone are required.");
+    if (!form.name.trim()) {
+      window.alert("Name is required.");
       return;
     }
     onSubmit({
@@ -124,11 +124,10 @@ export default function AgencyForm({
         </label>
 
         <label className="field field--full">
-          <span>Address *</span>
+          <span>Address</span>
           <input
             value={form.address_line_one}
             onChange={(e) => updateField("address_line_one", e.target.value)}
-            required
           />
         </label>
 
@@ -158,11 +157,10 @@ export default function AgencyForm({
         </label>
 
         <label className="field">
-          <span>Phone *</span>
+          <span>Phone</span>
           <input
             value={form.phone_num}
             onChange={(e) => updateField("phone_num", e.target.value)}
-            required
           />
         </label>
 
