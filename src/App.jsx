@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import AgencyForm from "./AgencyForm";
 import AgencyList from "./AgencyList";
+import ServiceRename from "./ServiceRename";
 import {
   createAgency,
   deleteAgency,
@@ -8,11 +9,22 @@ import {
   fetchAgencyDetails,
   fetchAgencyList,
   fetchServices,
+  renameService,
   updateAgency,
 } from "./api";
 
+function withRenamedService(agency, from, to) {
+  const services = agency?.services;
+  if (!services || Array.isArray(services) || !Object.prototype.hasOwnProperty.call(services, from)) {
+    return agency;
+  }
+  const nextServices = { ...services, [to]: services[from] };
+  delete nextServices[from];
+  return { ...agency, services: nextServices };
+}
+
 export default function App() {
-  const [view, setView] = useState("entry"); // entry | list
+  const [view, setView] = useState("entry"); // entry | list | services
   const [agencyList, setAgencyList] = useState([]);
   const [agencyDetails, setAgencyDetails] = useState([]);
   const [services, setServices] = useState([]);
@@ -136,6 +148,37 @@ export default function App() {
     }
   };
 
+  const handleRenameService = async (currentName, newName) => {
+    setSubmitting(true);
+    setStatus(null);
+    try {
+      const result = await renameService(currentName, newName);
+      const count = result.agencies_updated ?? 0;
+      showStatus(
+        "success",
+        `Renamed "${currentName}" to "${result.new_name}" on ${count} ${
+          count === 1 ? "agency" : "agencies"
+        }.`
+      );
+      await refreshLists();
+      if (selectedId) {
+        setSelectedAgency((prev) => withRenamedService(prev, currentName, result.new_name));
+        try {
+          const agency = await fetchAgency(selectedId);
+          setSelectedAgency(agency);
+        } catch {
+          // Keep the local rename so saving this agency does not write the old name back.
+        }
+      }
+      return result;
+    } catch (e) {
+      showStatus("error", e.message || "Rename failed");
+      throw e;
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleDelete = async () => {
     if (!selectedId) return;
     const name = selectedAgency?.name || "this agency";
@@ -160,7 +203,13 @@ export default function App() {
       <header className="app__header">
         <div>
           <p className="eyebrow">Blair County Services</p>
-          <h1>{view === "list" ? "Agency List" : "Agency Data Entry"}</h1>
+          <h1>
+            {view === "list"
+              ? "Agency List"
+              : view === "services"
+                ? "Services"
+                : "Agency Data Entry"}
+          </h1>
         </div>
         <div className="app__header-actions">
           <nav className="view-tabs" aria-label="App views">
@@ -179,6 +228,14 @@ export default function App() {
               onClick={() => setView("list")}
             >
               Agency List
+            </button>
+            <button
+              type="button"
+              className={`view-tabs__tab${view === "services" ? " view-tabs__tab--active" : ""}`}
+              aria-current={view === "services" ? "page" : undefined}
+              onClick={() => setView("services")}
+            >
+              Services
             </button>
           </nav>
           <button type="button" className="btn btn--primary" onClick={startCreate}>
@@ -212,6 +269,13 @@ export default function App() {
           error={detailsError}
           onRetry={refreshDetails}
           onSelectAgency={selectAgency}
+        />
+      ) : view === "services" ? (
+        <ServiceRename
+          services={services}
+          loading={loadingList}
+          submitting={submitting}
+          onRename={handleRenameService}
         />
       ) : (
       <div className="layout">

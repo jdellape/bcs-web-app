@@ -20,6 +20,25 @@ export async function fetchServices() {
   return res.json();
 }
 
+export async function fetchAgenciesByService(serviceName) {
+  const res = await fetch(
+    buildApiUrl(`/agencies/by-service/${encodeURIComponent(serviceName)}`)
+  );
+  if (!res.ok) throw new Error(await readError(res));
+  const data = await res.json();
+  return data.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+}
+
+export async function renameService(currentName, newName) {
+  const res = await fetch(buildApiUrl("/services/rename"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ current_name: currentName, new_name: newName }),
+  });
+  if (!res.ok) throw new Error(await readError(res));
+  return res.json();
+}
+
 export async function fetchAgencyList() {
   const res = await fetch(buildApiUrl("/agencies"));
   if (!res.ok) throw new Error(await readError(res));

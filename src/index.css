@@ -308,6 +308,10 @@ h2 {
   border-color: var(--accent);
 }
 
+.field input[readonly] {
+  color: var(--muted);
+}
+
 .field textarea {
   resize: vertical;
   min-height: 96px;
@@ -344,6 +348,11 @@ h2 {
 .services__add {
   display: flex;
   gap: 0.5rem;
+}
+
+.services__hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
 }
 
 .agency-form__actions {
@@ -485,6 +494,38 @@ h2 {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.service-rename__hint {
+  margin: 0.35rem 0 0;
+}
+
+.service-usage-block {
+  margin-top: 1.1rem;
+}
+
+.service-usage-block__count {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.service-usage {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.service-usage li {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.service-usage li:last-child {
+  border-bottom: none;
 }
 
 @media (max-width: 860px) {
