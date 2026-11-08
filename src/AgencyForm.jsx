@@ -238,6 +238,9 @@ export default function AgencyForm({
             Add
           </button>
         </div>
+        <p className="muted services__hint">
+          To rename a service on every agency that offers it, use the Services tab.
+        </p>
       </fieldset>
 
       <div className="agency-form__actions">
